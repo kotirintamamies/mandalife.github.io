@@ -1,4 +1,44 @@
 <html>
 <head></head>
-<body></body>
+<body>
+<center>
+  <h1>Droppaa tähän kehykseen joku kuva. Sit voit tallentaa toisella napilla.</h1>
+  <h2>ei oo sharee sori ku piti tehä tää 10 minuutis</h2>
+<canvas width="500" height = "500" id="image" style="border: 1px solid black;" ondrop="drop(event)"></canvas>
+</center>
+<script>
+document.addEventListener('drop', function(event) {event.preventDefault()})
+document.addEventListener('dragover', function(event) {event.preventDefault()})
+
+var canvas = document.getElementById("image")
+var ctx = canvas.getContext('2d')
+var img = document.createElement("img")
+var life = document.createElement("img");
+life.src="kappalife.png"
+var oikein = document.createElement("img")
+oikein.src="oikein.png"
+
+img.addEventListener("load", function(){
+   ctx.clearRect(0,0,canvas.width, canvas.height);
+   canvas.width=img.width;
+   canvas.height=img.height;
+   ctx.drawImage(img, 0,0)
+   ctx.drawImage(oikein, img.width/2, img.height/6, img.width/3, img.width/3)
+   ctx.drawImage(life, img.width-img.width/2, img.height-img.height/2, img.width/2, img.width/2)
+
+})
+
+function drop(event){
+  if (event.dataTransfer.files.length>0)
+
+  var file = event.dataTransfer.files[0]
+  var reader = new FileReader();
+    reader.onload=function(evt)
+    {
+      img.src=evt.target.result;
+    }
+    reader.readAsDataURL(file);
+}
+</script>
+</body>
 </html>
